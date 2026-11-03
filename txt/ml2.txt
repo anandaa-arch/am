@@ -1,0 +1,75 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.mode_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.metrics import r2_score, mean_squared_error
+df = pd.read_csv("uber.csv")
+dt.head()
+df.isnull().sum()
+dfl"pickup_datetime"] = pd.to_datetime(df["pickup_datetime" ])
+df.dropna(inplace=True)
+ifoUnnamed: @" in df.columns:
+df.drop(tUnnamed: @i, axis=1, inplace=True)
+dt.describe()
+plt.figure(figsize=(8, 5))
+pit.boxplot(di[ fare_amount"])
+plt.title(Boxplot of Fare Amounti)
+plt.ylabel(Fare Amountt)
+plt.show()
+q1= df["fare_amounti].quantile(@.25)
+q3= df["fare_amount].quantile(@.75)
+igr = q3 - ql
+
+Ib = qi - 1.5 * iqr
+ub = q3 + 1.5 * iqr
+df = df[(df[ fare_amount ] ≥= 1b) & (df[ fare_amount'] <= ub) ]
+pit.boxplot(df[ fare_amountiI)
+plt.title ("Fare Amount after Removing Outliers")
+plt.show()
+numeric_cols = df.select_dtypes(include=np.number)
+correlation_matrix = numeric_cols.corr()
+plt.figure(figsize=(8,6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix")
+pit.show()
+df[l"pickup_longitude", "pickup_latitude", "dropoff_longitude", ""dropoff_latitu
+di[ fare_amountạiị]
+X_train, X_test, y_train, y_test = train_test_split(
+X, y, test_size=0.2, random_state=42
+scaler = StandardScaler()
+A_train_scaled = scaler. fit_transtorm(X_train)
+X_test_scaled = scaler.transtorm(x_test)
+Ir_model = LinearRegression()
+Ir_model.fit(X_train_scaled, y_train)
+y_pred_Ir = Ir_model.predict(x_test_scaled)
+r2_r = r2_score(y_test, y_pred_r)
+rmse_Ir = np.sqrt(mean_squared_error(y_test, y_pred_11r))
+print( Linear Regression -> R2 Score:", r2_1r)
+print ( Linear Regression -> RMSE:, rmse_1r)
+ridge model = Ridge(alpha=1.0)
+ridge model.fit(X_train_scaled, y train)
+y_pred_ridge = ridge_model.predict(x_test_scaled)
+
+r2_ridge = r2_score(y_test, y_pred_ridge)
+rmse_ridge = np.sqrt(mean_squared_error(y_test, y_pred_ridge))
+print("Ridge Regression -> R2 Score:", r2_ridge)
+print('Ridge Regression -> RMSE:, rmse_ridge)
+Ridge Regression -> R2 Score: @.0004036479501785539
+Ridge Regression -> RMSE: 3.6373665936303716
+asso_model = Lasso(alpha=0@.1)
+lasso_model.fit(X_train_scaled, y_train)
+y_pred_lasso = lasso_model.predict(x_test_scaled)
+r2_lasso = r2_score(y_test, y_pred_lasso)
+rmse_lasso = np.sqrt(mean_squared_error(y_test, y_pred_lasso))
+print("Lasso Regression -> R2 Score:", r2_lasso)
+print(*Lasso Regression -> RMSE:", rmse_asso)
+Lasso Regression -> R2 Score: -3.106368247585145e-05
+Lasso Regression -> RMSE: 3.638157429697902
+results = pd.DataFrame({
+"R2 Score": [r2_Ir, r2_ridge, r2_asso],
+"RMSE*: [rmse_Ir, rmse_ridge, rmse_asso]
+print(results)
+

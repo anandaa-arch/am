@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.mode_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn import metrics
+train = pd.read_csv(*train.csv)
+test = pd.read_csv(*test.csv")
+print(train.head())
+print(test.head())
+X = train.drop("labeli, axis=1)
+y = train["label"]
+print (X. shape)
+print(y.shape)
+X_train, X_test, y_train, y_test = train_test_split(
+X, y, test_size=0.3, random_state=42)
+print (X_train.shape)
+print(X_test. shape)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+rbf_model = SVC(kernel= rbf)
+rbf_model.fit(X_train, y_train)
+print("SVM model trained successfully)
+y_rbf_pred = rbf_model.predict(X_test)
+print("Predicted values:iy_rbf_pred[10:15])
+print('Actual values:i y_test.iloc[10:15].values)
+
+acc_rbf = metrics.accuracy_score(y_test, y_rbf_pred)
+print("Accuracy:", "{: 2f)".format(acc_rbf * 100), "%")
+test_scaled = scaler.transform(test)
+test_predictions = rbf_model.predict(test_scaled)
+print('Predicted labels:", test_predictions[:10])
+for i in np.random.randint(@, len(X_test), 4):
+two_d = np.reshape(X_test[i], (28, 28))
+plt.title(Predicted label: ('.format(y_rbf_pred[i)))
+pit.imshow(two_d, cmap='gray)
+plt.show()
+

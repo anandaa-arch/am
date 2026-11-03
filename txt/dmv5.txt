@@ -1,0 +1,132 @@
+10/11/26, 10:18 PM  DMV Assignment-5
+    Data Visualization Using Matplotlib
+    Analyzing Air Quality Index (AQI) Trends in a City
+    Problem Statement: Analyze air-quality trends and pollutant patterns over time using Matplotlib.
+    Dataset: City_Air_Quality.csv
+    1. Import the Dataset
+    mport matplotlib.pyplot as pit  ort pandas as pu
+    df = pd.read_csv("City_Air_Quality.csv", encoding="cp1252", low_memory=False)  display(df.head())
+    sth_code  sampling_date  type s02 noz rspm spm location,monitoring, station pm2,5  date
+     150 February - M021990 Andhra Pradesh Hyderabad  NaN Resi  ia, Rural and other Areas 48 17.4 NaN NaN  NaN NaN 1990-02-01
+     151 February - mo2 95  3.1 7.0 NaN NaN  NaN NaN 1990-02-01
+     152 February - M021990 Andhra Pradesh Hyderabac  6.2 28.5 NaN NaN  NaN NaN 1990-02-01
+                      6.3 14.7 NaN NaN  NaN  NaN 1990-03-01
+       March - M031990 Andhra Pradesh Hyderabad  Industra Area 4.7  7.5 NaN NaN  NaN NaN 1990-03-01
+    2. Explore the Dataset
+    print('Dataset shape:, df.shape)
+      \nData types and non-null counts:")
+    display(df.isnull().sum().to_frame(Missing Values®))
+    display(df.describe(include=all").T)
+    Dataset shape: (435742, 13)
+    ['stn_codei  Column names:  spm", 'location_monitoring_station', 'pm2_5', 'date']
+           Non-Nu11 Count  Dtype
+     sampling date  291665 non-nu11  ojece  ooJed
+     location
+    tyр  agency  =  ion-nu1
+              object
+            non-nuli  on-nu1
+              object
+              float64  object  +loat6s
+              † оаtьє  float64  object
+    «tнолу 5g: 4132, dbfec(8)
+    Missing values:
+         Missing Values
+       stn_code  144077ął
+      ampling_date
+          149481
+           5393
+        so2  34646
+           16233
+          40222
+          237387
+          21491
+        pm2_5  426428
+    Summary statistics.
+         count unique  freq  std min 25% 50% 75%  max
+       stn_code  291665  745  193  1428  NaN  NaN NaN NaN NaN NaN  NaN
+      ampling_date  435739  5485  19-03-15  253  NaN  NaN NaN NaN  NaNNaN
+         435742  60384  NaN  NaN NaN NaN  NaN NaN
+                      NaN
+            64 Mabarashtra State Pollution Control Boardal  NaN
+        type  430349  Residential Rural and other Are:
+        S02 401090.0  NaN  10.829414  11.177187  909.0
+        no2 419509.0  INAN  NaN  18.503086  22.0 320  8/6.0
+        rsom 395520.0  NaN  NaN 108 832784  9010 142.0 6307.033333
+         198355.0  NaN  220.78348 151.395457  3380.0
+       orine station  408251  Regional Office  NaN NaN NaN NaN  NaN
+       pm2_5  9314.0  INaN  NaN  40.791461  504.0
+           S06
+    3. Identify Relevant Variables
+     df[col] = pd.to_numeric(df[col], errors="coerce")
+    print("AQI variable: Not available in this CSV)  print("Pollutant variables:", pollutant_cols)
+    Date variable: datel
+    AQI  Pollutant variables: ['so2', 'no2', 'rspm', 'spm', 'pm2_5']  Available date range: 1987-01-01 00:00:00 to 2015-12-31 00:00:00  Not available in this CSV
+    4. Line Plot: Overall AQI Trend Over Time
+    The supplied dataset does not contain an AQI column. This plot therefore uses the available pollutant  ents to show the trend in pollution levels over time; it is not an official AQI plot.
+localhost:8888/lab/workspaces/auto-T/tree/DMV Assignment-5/DMV Assignment-5.ipynb  1/5
+
+10/11/26, 10:18 PM  DMV Assignment-5
+    plt.figure(figsize=(10, 5))  pic.piotrmonthiy poliucants.index
+      olor= bjue. label=
+              Overall Pollution Trend Over Time
+    5. Line Plots: Individual Pollutant Levels Over Time
+        : df.set_index("date*)[pollutant_cols].resample("MS™).mean()
+               RSPM Levels Over Time
+localhost:8888/lab/workspaces/auto-T/tree/DMV Assignment-5/DMV Assignment-5.ipynb  2/5
+
+10/11/26, 10:18 PM  DMV Assignment-5
+                SPM Levels Over Time
+    250
+    200
+               PM2_5 Levels Over Time
+           202407
+    6. Bar Plot: Compare Pollution Measurements Across Years
+   /. yearly poljutants = dt.sec index( cate poljutanc cois•
+    -Lel Average roLJutant Measurements by Yeariy
+    PLC•XULCKS  ticks=range(len(yearly_pollutants.index)),
+    olt.show(  olc.cirnc lavouto
+                Averade ro utant veasl  nents by Year
+    7. Box Plot: Distribution of Pollutant Measurements by Category
+    for category in categories:  df.loc[df["type*] =-  category, pm2_5"].dropna()
+    plt.figure(figsize=(11, 5))  lt.boxplot(box_data, labels=box_labels, showfliers=false)
+    itxiaocu monaterane cacegory  olt.title(ỊạỊDistribution of PM2.5 Measurements &
+    plt.xticks(rotation=30, ha="right")  plt.tight_layout()
+    C:\users \NkBor\Apppata\Local\lemp\1рукerne-_18816\411131139.py:13: Matplot11bpe  arning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+            Distribution of PM2.5 Measurements by Monitoring Category
+      Residential, Rural and other Areas
+                 Monitoring category
+localhost:8888/lab/workspaces/auto-T/tree/DMV Assignment-5/DMV Assignment-5.ipynb  3/5
+
+10/11/26, 10:18 PM  DMV Assignment-5
+    8. Scatter Plots: Relationship Between Pollutant Measurements
+    # Compare pollutant Levels using scatter plots  for col in [so2, "
+     scatter_data = df[[col, "pm2_5"]].dropna()
+     if not scatter_data.empty:  in len(scatter data) so0es
+      Scatrer daca = scaccer cata,sampLeN  n=5000, random_state=42
+      plt.figure(figsize=(7, 5))
+       scatter-data("'pn2 5i).
+       labelsf(col.upper()) vs PM2.5"
+      plt.title(fRelationship Between (col.upper()) and PM2.5)
+      payduet rree teves
+      pit.tignt jayouc)  pic•griau rue.
+     elser  pic.snow(  print(
+      fi(col.upper()) and PM2.5.  f"No common readings available for "
+          Relationship Between SO2 and PM2.5
+                   • SO2 VS PM2.5
+    250
+    200
+          Relationship Between NO2 and PM2.5
+             NO2 Level
+         Relationship Between RSPM and PM2.5
+    250
+             RSPM Level  300
+    9. Customize the Visualizations
+                       ils make the chart easier to understand.
+localhost:8888/lab/workspaces/auto-T/tree/DMV Assignment-5/DMV Assignment-5.ipynb  4/5
+
+10/11/26, 10:18 PM  DMV Assignment-5
+                Monthly Air Pollutant Trends
+                   SOZ
+                   NOZ  PM2.5
+localhost:8888/lab/workspaces/auto-T/tree/DMV Assignment-5/DMV Assignment-5.ipynb  5/5
+

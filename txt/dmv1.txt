@@ -1,0 +1,177 @@
+   Assignment 1 - Data Loading, Storage and File Formats
+In [1]: import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    CSV file
+In 12]: df_csv = pd.read_csv("sales_csv.csvi)
+   print("CSV Data:")
+    display(df_csv.head())
+   CSV Data:
+    ORDERNUMBER  QUANTITYORDERED PRICEEACH  ORDERLINENUMBER  SALES  ORDERDATE  STATUS  QTR_ID MONTI
+       10107  30  95.70  2 2871.00  2/24/2003  0:00  Shipped
+        10121  34  81.35  5 2765.90  5/7/2003  0:00  Shipped  2
+       10134  41  94.74  2 3884.34  7/1/2003  0:00  Shipped
+       10145  45  83.26  6 3746.70  8/25/2003  0:00  Shipped
+       10159  49  100.00  14 5205.27  10/10/2003  0:00  Shipped  4
+   5 rows x 25 columns
+In [4]:  print ('Shape:",  df_csv.shape)
+   print("Columns:", df_csv.columns.tolist())
+   Shape: (2823, 25)
+   Columns: ['ORDERNUMBER',
+   'QTR_ID',  IMONTH_ID', 'YEAR_ID',  -ARIDT, YORODUCTLINE, MEAH, PODUCTODE, CUSTORERNANE , ROHONE, 'AOSRESSLIN  'PRODUCTLINE',
+   E1', 'ADDRESSLINE2', 'CITY', 'STATE', 'POSTALCODE', 'COUNTRY', 'TERRITORY', 'CONTACTLASTNAME', 'CONTACTFIRS
+   TNAME', 'DEALSIZE']
+   Excel file
+In [3]:  df_excel = pd.read_excel(isales_xls.xlsxi)
+   print("Excel Data:")
+    display(df_excel.head())
+
+   Excel Data:
+    ORDERNUMBER QUANTITYORDERED  PRICEEACH ORDERLINENUMBER  SALES  ORDERDATE  STATUS QTR_ID MONTI
+       10107  30  95.70  2 2871.00  2/24/2003  0:00  Shipped
+       10121  34  81.35  5 2765.90  5/7/2003  0:00  Shipped  2
+   2  10134  41  94.74  2 3884.34  7/1/2003  0:00  Shipped  3
+   З  10145  45  83.26  6 3746.70  8/25/2003  0:00  Shipped
+       10159  49  100.00  14 5205.27  10/10/2003  0:00  Shipped
+  5 rows x 25 columns
+In [5]:  print("Shape:",  df_excel.shape)
+   print("Columns:", df_excel.columns.tolist())
+   Shape: (2823, 25)
+   Columns: ['ORDERNUMBER', 'QUANTITYORDERED',
+     ПАОЕЗ НЕ) СТ, 5АЕР, 1З АОЕ:, СОА , ТЕРАТО , СОМАЕТАЗНЕ , САПАСТР НВ,  'YEAR_ID', 'PRODUCTLINE',  "PRICEEACH', ,PRODUCTCODE,
+   TNAME', 'DEALSIZE']
+   Json file
+In [7]:  df_json = pd.read_json("sales_json.json")
+   print ("JSON Data:")
+   display(df_json.head())
+   JSON Data:
+    ORDERNUMBER QUANTITYORDERED  PRICEEACH ORDERLINENUMBER  SALES  ORDERDATE  STATUS QTR_ID MONTI
+       10107  30  95.70  2 2871.00  2/24/2003  0:00  Shipped
+       10121  34  81.35  5 2765.90  5/7/2003  0:00  Shipped  2
+   2  10134  41  94.74  2 3884.34  7/1/2003  0:00  Shipped  3
+       10145  45  83.26  6 3746.70  8/25/2003  0:00  Shipped
+   4  10159  49  100.00  14 5205.27  10/10/2003  0:00  Shipped  4
+  5 rows x 25 columns
+In [8]:  print('Shape:", df_json.shape)
+   print("Columns:", df_json.columns.tolist())
+   Shape: (2823, 25)
+   Columns: ['ORDERNUMBER', 'QUANTITYORDERED',  'ORDERLINENUMBER', 'SALES', 'ORDERDATE', 'STATUS',
+     - OD ES MES, CLM, STATE , POSALCODE , COATRY , TERETORY , CONTACTIAS IAME , CORPACTEHES  'MONTH_ID', 'YEAR_ID', 'PRODUCTLINE',
+   E1',
+   TNAME', 'DEALSIZE']
+In [9]:  # 1. Combine all three files into one dataframe
+   df = pd.concat ([df_csv, df_excel, df_json], ignore_index=True)
+   # 2. Remove duplicate rows
+   df = df.drop_duplicates()
+   # 3.  Fill missing numbers with the average (mean)
+   df = df.fillna(df.mean(numeric_only=True))
+
+    # 4. Fill missing text columns with the most frequent value (mode)
+    df = df.fillna(df.mode().ilocl0])
+    print('Missing values left:", df.isnull().sum().sum())
+    print("Total rows:", len(df))
+   Missing values left: 0
+   Total rows: 7876
+    Data transformation
+In [11]:  # Derive a new column: Total Amount
+    if 'QUANTITYORDERED' in df.columns and 'PRICEEACH' in df.columns:
+     df['Total_Amount']  = df['OUANTITYORDERED'] * df['PRICEEACH']
+    # Split date into year and month
+    if 'ORDERDATE' in df.columns:
+      dfl'Date'] = pd.to_datetime(dfl'Date'])
+     df ['Month'] = dfl'Datei].dt.month_name()
+    df.head()
+Out [11] :  ORDERNUMBER QUANTITYORDERED PRICEEACH ORDERLINENUMBER  SALES  ORDERDATE  STATUS  QTR_ID MON
+        10107  30  95.70  2 2871.00  2/24/2003  0:00  Shipped
+        10121  34  81.35  5 2765.90  5/7/2003  0:00  Shipped  2
+        10134  41  94.74  2 3884.3ął  7/1/2003  0:00  Shipped
+        10145  45  83.26  6 3746.70  8/25/2003  0:00  Shipped
+    4  10159  49  100.00  14 5205.27 10/0/2000 shipped
+    5 rows x 28 columns
+    Analysis & Statistics
+In [12]:  # Summary statistics for numeric data
+    print("-- Summary Statistics --")
+    print(df.describe())
+    # Key metrics
+    sales_col = 'Total_Amount' if 'Total_Amount' in df.columns else df.select_dtypes(include='number').columns|
+    print("\nTotal Sales:", df[sales_col].sum())
+    print("Average Order Value:", df[sales_col].mean())
+    # Group by country
+    if 'COUNTRY' in df.columns:
+     print("\n--- Sales by Country ---")
+     print(df.groupby('COUNTRY") [sales_col].sum())
+
+    -- Summary Statistics
+      ORDERNUMBER  QUANTITYORDERED  ORDERLINENUMBER \
+   count  7876.000000  7876.000000  7876.000000
+   mean  10258.50266îŚ  35.153885  6.453403Ś
+   min  10100.000000  6.000000  1.000000
+   25%  10178.000000źŚ  27.00000Oął  3.000000
+   50%  10262.000000  35.000000  6.000000
+   75%  10333.000000  43.00000ął  9.000000
+   max  000000 52001  97.000000  18.00000îŚ
+   std  92.26756zź  9.765696  4.225154
+         SALES  QTR_ID  MONTH_ID  YEAR_ID  MSRP \
+   count  7876.000000  7876.000000 7876.000000  7876.000000  7876.000000
+   mean  3562.55508îŚ  2.71419łł  7.081767  2003.81551šŚ  100.772473ł
+   min  482.130000  1.000000  1.000000  2003.000000  33.000000ł
+   25%  2204.600000  2.000000  4.000000  2003.000000  68.00000îęŚę
+   50%  3185.710000  3.000000  8.000000  2004.000000  99.000000ł
+   75%  4.000000  000000  2004.000000  124.000000
+   max  0008280  4.000000  000002  2005.000000  214.000000
+   std  1850.21509ęŚ  1.203680ł  3.657518  0.701105  40.303667
+      Total_Amount  Date
+   count  7876.000000  7876
+   mean  2941.018441  2004-05-10 20:39:36.841036160
+   min  482.130000  2003-01-06 00:00:00
+   25%  2100.00000îŘŚš  2003-11-07 00:00:00
+   50%  2800.000000  2004-06-15 00:00:00
+   75%  3756.000000  2004-11-17 00:00:00
+   max  9048.160000  2005-05-31 00:00:00
+   std  1109.493612  NaN
+   Total Sales: 23163461.240000002
+   Average Order Value: 2941.0184408329105
+    --- Sales by Country
+   COUNTRY
+   Australia  1145735.72
+   Austria  518379.15
+   Italy
+   Japan
+   Spain
+   UK
+   USA
+   Name:  Tota  loat64
+    Visualization
+In [16]:  plt.figure(figsize=(12, 4))
+    # 1. Bar Chart: Sales by Country
+    plt.subplot(1, 3, 1)
+    if 'COUNTRY' in df.columns:
+     df.groupby('COUNTRY') [sales_col].sum().plot(kind='bar', color='skyblue', edgecolor='black')
+     plt.title('Sales by Country')
+     plt.ylabel('Sales')
+    # 2. Pie Chart: Country Distribution
+    plt.subplot(1, 3, 2)
+    if 'COUNTRY' in df.columns:
+     df['COUNTRY'].value_counts() .plot(kind='pie', autopct='%1.0f&%')
+     plt.title('Product Country Share')
+     plt.ylabel('')
+
+   # 3. Box Plot: Sales Spread
+   plt.subplot(1,  3, 3)
+   plt.boxplot(df[sales_col].dropna())
+   plt.title('Sales Distribution')
+   plt.ylabel('Amount')
+   plt.tight_layout()
+   plt.show()
+       Sales by Country  Product Country Share  Sales Distribution
+                           USA
+                         38%
+                    Spain  13%  5000.
+                       12%  5 4000 •
+                    France
+                                  2000
+                     Australia raly UK
+         Yo0al
+In [ ]:
+

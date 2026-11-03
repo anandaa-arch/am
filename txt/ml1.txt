@@ -1,0 +1,63 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.mode_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+df = pd.read_csv(*Iris.csv")
+df.head()
+print (df.shape)
+print (df.info())
+df[l'SepalLengthCm', 'SepalWidthCm',
+"PetalLengthCm', 'PetalWidthCm' 1]
+y = df['Speciesiịi
+y-map({
+'Iris-setosa': @,
+"Iris-versicolor": 1,
+"Iris-virginica": 2
+print(y.head())
+X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42, stratify=y
+scaler = StandardScaler()
+X_train = scaler. fit_transform(X_train)
+X_test = scaler.transform(X_test)
+Ida = LinearDiscriminantAnalysis(n_components=2)
+X_train_lda = Ida.fit_transform(X_train, y_train)
+X_test_Ida = Ida.transform(X_test)
+
+y_pred = Ida.predict(x_test)
+print(y_pred)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+print("Accuracy: {:.2f}%".format(accuracy * 10@))
+print(classification_report(
+y_test,
+y_pred,
+target_names=[
+Iris-setosa',
+"Iris-versicolor",
+ạiIris-virginica'
+cm = contusion_matrix(y_test, y_pred)
+print(cm)
+plt.figure(figsize=(6, 5))
+plt.imshow(cm)
+plt.colorbar()
+plt.xlabel("Predicted*)
+plt.ylabel("Actuali)
+plt.title("LDA Confusion Matrix")
+plt.show()
+plt.figure(figsize=(8, 6))
+for i, species in enumerate([
+ris-setosa',
+
+ạris-versicolor,
+"Iris-virginica'
+plt.scatter(
+X_train_Ida[y_train == i, 0],
+X_train_Ida[y_train == i, 1],
+label=species
+plt.xlabel(ILD1*)
+pit.ylabel("LD2")
+plt.title(ILDA Projection of Iris Dataset*)
+pit.legend()
+plt.show()
+
